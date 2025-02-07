@@ -323,7 +323,7 @@ bool UGridlyGameSettings::DeserializeJsonToArray(const FString& JsonString, TArr
 
 FString UGridlyGameSettings::GetGridlyConfigPath()
 {
-    return FPaths::Combine(FPaths::ProjectConfigDir(), TEXT("GridlyConfig.ini"));
+    return FConfigCacheIni::NormalizeConfigIniPath(FPaths::Combine(FPaths::ProjectConfigDir(), TEXT("GridlyConfig.ini")));
 }
 
 void UGridlyGameSettings::EnsureConfigFileExists(const FString& ConfigPath)
