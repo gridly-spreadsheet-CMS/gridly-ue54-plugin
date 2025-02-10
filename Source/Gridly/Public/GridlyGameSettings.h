@@ -23,7 +23,7 @@ public:
     FString Name;
 
     UPROPERTY(EditAnywhere, Category = ColumnInfo)
-    EGridlyColumnDataType DataType;
+    EGridlyColumnDataType DataType = EGridlyColumnDataType::String;
 };
 
 UCLASS(BlueprintType, Config = Game, DefaultConfig,
