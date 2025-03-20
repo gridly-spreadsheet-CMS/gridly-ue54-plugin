@@ -180,15 +180,17 @@ void UGridlyTask_ImportDataTableFromGridly::OnProcessRequestComplete(FHttpReques
 		// into the FGridlyTableCell's value within the JsonArrayStringToUStruct call.
 		// When the FGridlyDataTableImporterJSON comes to actually load it, it will read it as a array
 		// and so be able to load it into a array/set
-		FRegexPattern Pattern(TEXT("\"value\":(\\[.*?\"\\])"), ERegexPatternFlags::CaseInsensitive);
+		FRegexPattern Pattern(TEXT("\"value\":(\\[\".*?\"\\])"), ERegexPatternFlags::CaseInsensitive);
 		FRegexMatcher Matcher(Pattern, Content);
+		FString FixedUpContent = Content;
 
 		while (Matcher.FindNext())
 		{
 			FString ArrayContent = Matcher.GetCaptureGroup(1);
 			FString Replacement = TEXT("\"") + ArrayContent.Replace(TEXT("\""), TEXT("\\\"")) + TEXT("\"");
-			Content.ReplaceInline(*ArrayContent, *Replacement);
+			FixedUpContent.ReplaceInline(*ArrayContent, *Replacement);
 		}
+		Content = FixedUpContent;
 #endif //HS_GRIDLY_ALLOW_SET_PROPERTYTYPE_IN_TABLE
 		
 		if (FJsonObjectConverter::JsonArrayStringToUStruct(Content, &TableRows, 0, 0))
