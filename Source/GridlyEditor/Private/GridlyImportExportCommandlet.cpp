@@ -46,7 +46,7 @@ int32 UGridlyImportExportCommandlet::Main(const FString& Params)
 	FString ConfigPath;
 	if (const FString* ConfigParamVal = ParamVals.Find(FString(TEXT("Config"))))
 	{
-		ConfigPath = *ConfigParamVal;
+		ConfigPath = FConfigCacheIni::NormalizeConfigIniPath(*ConfigParamVal);;
 	}
 	else
 	{
